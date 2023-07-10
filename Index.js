@@ -1,50 +1,60 @@
-const redux = require('redux')
+const redux = require('redux');
 const createStore = redux.createStore;
 
+// Action types
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
 
-//Action Types
-const INCREMENT = 'INCREMENT'
-
-
-//Action Function
+// Action creators
 const increment = () => {
-    return{
-        type : INCREMENT
-    }
-}
+  return {
+    type: INCREMENT,
+  };
+};
 
+const decrement = () => {
+  return {
+    type: DECREMENT,
+  };
+};
 
-//Initial date in store
-const initialState = {count : 0}
+// Store initial data
+const initialState = {
+  count: 0,
+};
 
+// Reducer
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case INCREMENT:
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    case DECREMENT:
+      return {
+        ...state,
+        count: state.count - 1,
+      };
+    default:
+      return state;
+  }
+};
 
-//Reducer
-const reducer = (state=initialState, action)=>{
-   
-        switch(action.type) {
-            case INCREMENT:
-                return{
-                    ...state,
-                    count : state.count + 1
-                }
-                default :
-                return state;
-    }
-}
+// Store
+const store = createStore(reducer);
+console.log('Initial State:', store.getState());
 
+// Subscribe
+store.subscribe(() => {
+  console.log('Updated State:', store.getState());
+});
 
-//store
-let store = redux.createStore(reducer)
-console.log("Initial State" , store.getState())
-
-
-//Subscribe
-store.subscribe(()=>(console.log("Update State", store.getState())))
-
-
-//Call the function
-store.dispatch(increment())
-store.dispatch(increment())
-store.dispatch(increment())
-store.dispatch(increment())
-
+// Dispatch actions
+store.dispatch(increment());
+store.dispatch(increment());
+store.dispatch(increment());
+store.dispatch(increment());
+store.dispatch(decrement());
+store.dispatch(decrement());
+//use command in terminal for output = node index.js
